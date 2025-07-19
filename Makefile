@@ -55,3 +55,66 @@ docker_backend_update_schema:
 
 docker_frontend_update_api:
 	docker compose run --rm frontend pnpm run openapi-ts
+
+docker_generate_client: docker_backend_update_schema docker_frontend_update_api
+
+docker_fresh_db:
+	docker compose run --rm backend python manage.py flush --no-input
+	docker compose run --rm backend python manage.py migrate
+
+docker_createsuperuser:
+	docker compose run --rm backend python manage.py createsuperuser
+
+# Local development commands (non-Docker)
+install:
+	cd backend && uv sync
+	cd frontend && pnpm install
+
+install_backend:
+	cd backend && uv sync
+
+install_frontend:
+	cd frontend && pnpm install
+
+run_backend:
+	cd backend && uv run python manage.py runserver
+
+run_frontend:
+	cd frontend && pnpm run dev
+
+run:
+	$(MAKE) -j2 run_backend run_frontend
+
+migrate:
+	cd backend && uv run python manage.py migrate
+
+makemigrations:
+	cd backend && uv run python manage.py makemigrations
+
+createsuperuser:
+	cd backend && uv run python manage.py createsuperuser
+
+generate_schema:
+	cd backend && uv run python manage.py spectacular --color --file schema.yml
+
+generate_client: generate_schema
+	cd frontend && pnpm run openapi-ts
+
+fresh_db:
+	cd backend && uv run python manage.py flush --no-input
+	cd backend && uv run python manage.py migrate
+
+lint_backend:
+	uv run ruff check backend/
+	uv run ruff format backend/ --check
+
+lint_frontend:
+	cd frontend && pnpm run lint
+
+lint:
+	$(MAKE) lint_backend
+	$(MAKE) lint_frontend
+
+format:
+	uv run ruff format backend/
+	cd frontend && pnpm run lint --apply
