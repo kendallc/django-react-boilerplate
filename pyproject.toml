@@ -175,5 +175,10 @@ directory = "htmlcov"
 [tool.ty.environment]
 python-version = "3.13"
 
+[tool.ty.rules]
+# Disable rules that don't work well with Django ORM
+# ty doesn't have full Django support yet (it's in alpha)
+unresolved-attribute = "ignore"
+
 [tool.hatch.build.targets.wheel]
 packages = ["backend"]
