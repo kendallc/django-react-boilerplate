@@ -16,6 +16,7 @@ A [Django](https://www.djangoproject.com/) project boilerplate/template with a m
 - [Celery](https://docs.celeryq.dev/en/stable/), for background worker tasks
 - [WhiteNoise](https://whitenoise.readthedocs.io/en/stable/) with [brotlipy](https://github.com/python-hyper/brotlicffi), for efficient static files serving
 - [ruff](https://github.com/astral-sh/ruff) and [Biome](https://biomejs.dev/) with [pre-commit](https://pre-commit.com/) for automated quality assurance (does not replace proper testing!)
+- [ty](https://github.com/astral-sh/ty), Astral's fast Rust-based Python type checker
 
 For continuous integration, a [Github Action](https://github.com/features/actions) configuration `.github/workflows/main.yml` is included.
 
@@ -31,8 +32,7 @@ Also, includes a Render.com `render.yaml` and a working Django `production.py` s
 - `react` for building interactive UIs
 - `react-dom` for rendering the UI
 - `react-router` for page navigation
-- `webpack` for bundling static assets
-- `webpack-bundle-tracker` for providing the bundled assets to Django
+- `vite` for bundling static assets with fast HMR
 - Styling
   - `bootstrap` for providing responsive stylesheets
   - `react-bootstrap` for providing components built on top of Bootstrap CSS without using plugins
@@ -52,7 +52,7 @@ Also, includes a Render.com `render.yaml` and a working Django `production.py` s
 - `django` for building backend logic using Python
 - `djangorestframework` for building a REST API on top of Django
 - `drf-spectacular` for generating an OpenAPI schema for the Django REST API
-- `django-webpack-loader` for rendering the bundled frontend assets
+- `vite_loader` custom templatetag for rendering Vite-bundled frontend assets
 - `django-js-reverse` for easy handling of Django URLs on JS
 - `django-upgrade` for automatically upgrading Django code to the target version on pre-commit
 - `django-guid` for adding a unique correlation ID to log messages from Django requests
@@ -67,7 +67,7 @@ Also, includes a Render.com `render.yaml` and a working Django `production.py` s
 
 ## Project bootstrap [![main](https://github.com/kendallc/django-react-boilerplate/actions/workflows/main.yml/badge.svg)](https://github.com/kendallc/django-react-boilerplate/actions/workflows/main.yml) [![Known Vulnerabilities](https://snyk.io/test/github/kendallc/django-react-boilerplate/badge.svg)](https://snyk.io/test/github/kendallc/django-react-boilerplate)
 
-- [ ] Make sure you have Python 3.12 installed
+- [ ] Make sure you have Python 3.13 installed
 - [ ] Install Django with `pip install django`, to have the `django-admin` command available
 - [ ] Open the command line and go to the directory you want to start your project in
 - [ ] Start your project using (replace `project_name` with your project name and remove the curly braces):
@@ -112,7 +112,7 @@ After completing ALL of the above, remove this `Project bootstrap` section from 
 - Access `http://localhost:8000` on your browser and the project should be running there
   - When you run `make docker_up`, some containers are spinned up (frontend, backend, database, etc) and each one will be running on a different port
   - The container with the React app uses port 3000. However, if you try accessing it on your browser, the app won't appear there and you'll probably see a blank page with the "Cannot GET /" error
-  - This happens because the container responsible for displaying the whole application is the Django app one (running on port 8000). The frontend container is responsible for providing a bundle with its assets for [django-webpack-loader](https://github.com/django-webpack/django-webpack-loader) to consume and render them on a Django template
+  - This happens because the container responsible for displaying the whole application is the Django app one (running on port 8000). The frontend container is responsible for providing bundled assets for the Django Vite loader to consume and render them on a Django template
 - To access the logs for each service, run:
   `make docker_logs <service name>` (either `backend`, `frontend`, etc)
 - To stop the project, run:
@@ -160,7 +160,7 @@ After completing ALL of the above, remove this `Project bootstrap` section from 
 - `pnpm run openapi-ts`
   - This is used to generate the TypeScript client API code from the backend OpenAPI schema
 - `pnpm run dev`
-  - This is used to serve the frontend assets to be consumed by [django-webpack-loader](https://github.com/django-webpack/django-webpack-loader) and not to run the React application as usual, so don't worry if you try to check what's running on port 3000 and see an error on your browser
+  - This is used to serve the frontend assets to be consumed by the Django Vite loader and not to run the React application as usual, so don't worry if you try to check what's running on port 3000 and see an error on your browser
 - Open a browser and go to `http://localhost:8000` to see the project running
 
 #### Setup Celery
