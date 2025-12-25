@@ -119,7 +119,7 @@ runs:
     - run: cd backend && ruff check .
       working-directory: testproject
       shell: bash
-    - run: cd backend && ty check .
+    - run: cd backend && ty check . --python $(which python)
       working-directory: testproject
       shell: bash
     - run: cd backend && python manage.py makemigrations --check --dry-run
