@@ -172,7 +172,7 @@ show_missing = true
 [tool.coverage.html]
 directory = "htmlcov"
 
-[tool.ty]
+[tool.ty.environment]
 python-version = "3.13"
 
 [tool.hatch.build.targets.wheel]
