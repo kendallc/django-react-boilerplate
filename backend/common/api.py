@@ -19,7 +19,6 @@ router = Router(tags=["common"])
 async def rest_check(request):
     return {
         "message": (
-            "This message comes from the backend. "
-            "If you're seeing this, the REST API is working!"
+            "This message comes from the backend. If you're seeing this, the REST API is working!"
         )
     }

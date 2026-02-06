@@ -14,6 +14,7 @@ repos:
       - id: check-merge-conflict
       - id: check-symlinks
       - id: debug-statements
+        exclude: ^backend/users/tasks\.py$
       - id: detect-private-key
   - repo: https://github.com/adamchainz/django-upgrade
     rev: "1.15.0"
@@ -22,7 +23,7 @@ repos:
         args: [--target-version, "5.0"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.1.6
+    rev: v0.15.0
     hooks:
       # Run the linter.
       - id: ruff
@@ -62,7 +63,7 @@ repos:
           bash -lc 'if rg -Fq "{{ project_name }}" pyproject.toml; then
           echo "Skipping backend schema generation in template mode";
           exit 0; fi;
-          uv run python backend/manage.py export_openapi_schema --api {{project_name}}.api.api --output backend/schema.json'
+          uv run python backend/manage.py export_openapi_schema --api {{project_name}}.api.api --output backend/schema.openapi'
         language: system
         files: ^backend/
         pass_filenames: false
@@ -70,5 +71,5 @@ repos:
         name: frontend-api-local
         entry: pnpm run openapi-ts
         language: system
-        files: backend/schema\.json$
+        files: backend/schema\.openapi$
         pass_filenames: false

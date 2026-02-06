@@ -9,6 +9,7 @@ import type {
   UsersCreateResponse,
   UsersDestroyData,
   UsersDestroyResponse,
+  UsersListData,
   UsersListResponse,
   UsersPartialUpdateData,
   UsersPartialUpdateResponse,
@@ -36,13 +37,20 @@ export class CommonService {
 export class UsersService {
   /**
    * List Users
+   * @param data The data for the request.
+   * @param data.limit
+   * @param data.offset
    * @returns UsersListSchema OK
    * @throws ApiError
    */
-  public static usersList(): CancelablePromise<UsersListResponse> {
+  public static usersList(data: UsersListData = {}): CancelablePromise<UsersListResponse> {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/api/users/',
+      query: {
+        limit: data.limit,
+        offset: data.offset,
+      },
     });
   }
 

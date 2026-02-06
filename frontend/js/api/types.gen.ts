@@ -39,6 +39,11 @@ export type UserPatchSchema = {
 
 export type RestRestCheckRetrieveResponse = RestCheckResponseSchema;
 
+export type UsersListData = {
+  limit?: number;
+  offset?: number;
+};
+
 export type UsersListResponse = UsersListSchema;
 
 export type UsersCreateData = {
@@ -86,6 +91,7 @@ export type $OpenApiTs = {
   };
   '/api/users/': {
     get: {
+      req: UsersListData;
       res: {
         /**
          * OK

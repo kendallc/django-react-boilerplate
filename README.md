@@ -148,7 +148,7 @@ After completing ALL of the above, remove this `Project bootstrap` section from 
 - Run the migrations:
   `uv run python manage.py migrate`
 - Generate the OpenAPI schema:
-  `uv run python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.json`
+  `uv run python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.openapi`
 - Run the project:
   `uv run python manage.py runserver`
 
@@ -204,7 +204,7 @@ The API documentation page is accessible at `http://localhost:8000/api/schema/sw
 > To update the schema, run:
 >
 > - If you are using Docker: `make docker_backend_update_schema`
-> - If you are not using Docker: `uv run python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.json`
+> - If you are not using Docker: `uv run python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.openapi`
 
 We use the [`openapi-ts`](https://heyapi.vercel.app/openapi-ts/get-started.html) tool to generate TypeScript client code from the OpenAPI schema. The generated client code is used to interact with the API in a type-safe manner.
 

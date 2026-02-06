@@ -47,16 +47,16 @@ migrate:
 	uv run backend/manage.py migrate
 
 run-openapi-schema:
-	uv run backend/manage.py export_openapi_schema --api {{project_name}}.api.api --output backend/schema.json
+	uv run backend/manage.py export_openapi_schema --api {{project_name}}.api.api --output backend/schema.openapi
 
 run-celery:
-	uv run celery --workdir backend --app=healthnav worker --loglevel=info
+	uv run celery --workdir backend --app={{project_name}} worker --loglevel=info
 
 # Docker commands
 docker_setup:
-	docker volume create healthnav_dbdata
+	docker volume create {{project_name}}_dbdata
 	docker compose build --no-cache backend frontend
-	docker compose run --rm backend python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.json
+	docker compose run --rm backend python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.openapi
 	docker compose run --rm frontend pnpm run openapi-ts
 
 docker_test:
@@ -88,7 +88,7 @@ docker_backend_shell:
 	docker compose run --rm backend bash
 
 docker_backend_update_schema:
-	docker compose run --rm backend python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.json
+	docker compose run --rm backend python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.openapi
 
 docker_frontend_shell:
 	docker compose run --rm frontend sh
@@ -97,7 +97,7 @@ docker_frontend_update_api:
 	docker compose run --rm frontend pnpm run openapi-ts
 
 docker_run_celery:
-	docker compose run --rm backend celery --app=healthnav worker --loglevel=info
+	docker compose run --rm backend celery --app={{project_name}} worker --loglevel=info
 
 install-frontend:
 	pnpm install

@@ -18,7 +18,7 @@
     "lint": "biome check --write frontend",
     "tsc": "tsc -p ./tsconfig.json --noEmit",
     "coverage": "jest --coverage",
-    "openapi-ts": "openapi-ts",
+    "openapi-ts": "rm -rf frontend/js/api && openapi-ts",
     "prepare": "husky"
   },
   "dependencies": {

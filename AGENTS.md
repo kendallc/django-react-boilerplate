@@ -59,7 +59,7 @@ uv run python manage.py runserver           # Run Django server
 uv run python manage.py test                # Run tests
 uv run python manage.py makemigrations      # Create migrations
 uv run python manage.py migrate             # Apply migrations
-uv run python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.json  # Generate API schema
+uv run python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.openapi  # Generate API schema
 ```
 
 **Frontend Commands:**

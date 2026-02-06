@@ -11,8 +11,24 @@ class TestCaseUtils(TestCase):
         self.user.set_password(self._user_password)
         self.user.save()
 
+        self._admin_password = "123456"
+        self.admin_user = baker.prepare(
+            "users.User",
+            email="admin@email.com",
+            is_staff=True,
+            is_superuser=True,
+        )
+        self.admin_user.set_password(self._admin_password)
+        self.admin_user.save()
+
         self.auth_client = Client()
         self.auth_client.login(email=self.user.email, password=self._user_password)
+
+        self.admin_client = Client()
+        self.admin_client.login(email=self.admin_user.email, password=self._admin_password)
+
+        self.admin_csrf_client = Client(enforce_csrf_checks=True)
+        self.admin_csrf_client.login(email=self.admin_user.email, password=self._admin_password)
 
     def reverse(self, name, *args, **kwargs):
         """Reverse a url, convenience to avoid having to import reverse in tests"""

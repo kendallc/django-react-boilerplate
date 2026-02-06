@@ -75,6 +75,7 @@ exclude = [
     "node_modules",
     "venv",
     "virtualenvs",
+    "backend/users/tasks.py",
 ]
 line-length = 100
 indent-width = 4
@@ -154,6 +155,7 @@ lines-after-imports = 2
 "backend/common/utils/tests.py" = ["S105", "N802"]
 "**/migrations/*" = ["RUF", "I"]
 "backend/vite_loader/templatetags/vite_loader_tags.py" = ["S308"]
+"backend/project_name/settings/*" = ["F403", "F405", "S105"]
 "backend/{{ project_name }}/settings/*" = ["F403", "F405", "S105"]
 
 [tool.coverage.run]
