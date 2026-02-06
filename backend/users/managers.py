@@ -15,3 +15,17 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.save(using=self._db)
         return user
+
+    async def acreate_user(self, email, password=None, **kwargs):
+        email = self.normalize_email(email)
+        user = self.model(email=email, **kwargs)
+        user.set_password(password)
+        await user.asave(using=self._db)
+        return user
+
+    async def acreate_superuser(self, **kwargs):
+        user = await self.acreate_user(**kwargs)
+        user.is_superuser = True
+        user.is_staff = True
+        await user.asave(using=self._db)
+        return user

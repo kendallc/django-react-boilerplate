@@ -2,16 +2,37 @@ import { useEffect, useState } from 'react';
 
 import DjangoNegativeLogoSrc from '../../assets/images/django-logo-negative.png';
 import DjangoPositiveLogoSrc from '../../assets/images/django-logo-positive.png';
-import { type RestRestCheckRetrieveResponse, restRestCheckRetrieve } from '../api';
+import * as ApiModule from '../api';
+
+type RestCheckResponse = {
+  message: string;
+};
+
+const api = ApiModule as unknown as {
+  CommonService?: {
+    restRestCheckRetrieve?: () => Promise<RestCheckResponse>;
+  };
+  restRestCheckRetrieve?: () => Promise<RestCheckResponse>;
+};
+
+const getRestCheck = async (): Promise<RestCheckResponse> => {
+  if (api.restRestCheckRetrieve) {
+    return api.restRestCheckRetrieve();
+  }
+  if (api.CommonService?.restRestCheckRetrieve) {
+    return api.CommonService.restRestCheckRetrieve();
+  }
+  throw new Error('Generated API client does not provide restRestCheckRetrieve');
+};
 
 const Home = () => {
   const [showBugComponent, setShowBugComponent] = useState(false);
-  const [restCheck, setRestCheck] = useState<RestRestCheckRetrieveResponse>();
+  const [restCheck, setRestCheck] = useState<RestCheckResponse>();
 
   useEffect(() => {
     async function onFetchRestCheck() {
-      const response = await restRestCheckRetrieve();
-      setRestCheck(response.data);
+      const response = await getRestCheck();
+      setRestCheck(response);
     }
     onFetchRestCheck();
   }, []);
