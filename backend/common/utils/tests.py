@@ -1,8 +1,7 @@
-from django.test import TestCase
+from django.test import Client, TestCase
 from django.urls import reverse
 
 from model_bakery import baker
-from rest_framework.test import APIClient
 
 
 class TestCaseUtils(TestCase):
@@ -12,7 +11,7 @@ class TestCaseUtils(TestCase):
         self.user.set_password(self._user_password)
         self.user.save()
 
-        self.auth_client = APIClient()
+        self.auth_client = Client()
         self.auth_client.login(email=self.user.email, password=self._user_password)
 
     def reverse(self, name, *args, **kwargs):

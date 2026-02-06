@@ -15,7 +15,7 @@ services:
     plan: free
     runtime: python
     buildCommand: "./render_build.sh"
-    startCommand: "uv run gunicorn {{project_name}}.wsgi:application --chdir backend --limit-request-line 8188 --log-file -"
+    startCommand: "uv run gunicorn {{project_name}}.asgi:application --chdir backend --worker-class uvicorn.workers.UvicornWorker --limit-request-line 8188 --log-file -"
     envVars:
       - key: ENABLE_DJANGO_COLLECTSTATIC
         value: 1

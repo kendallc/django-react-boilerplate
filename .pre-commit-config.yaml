@@ -62,7 +62,7 @@ repos:
           bash -lc 'if rg -Fq "{{ project_name }}" pyproject.toml; then
           echo "Skipping backend schema generation in template mode";
           exit 0; fi;
-          uv run python backend/manage.py spectacular --color --file backend/schema.yml'
+          uv run python backend/manage.py export_openapi_schema --api {{project_name}}.api.api --output backend/schema.json'
         language: system
         files: ^backend/
         pass_filenames: false
@@ -70,5 +70,5 @@ repos:
         name: frontend-api-local
         entry: pnpm run openapi-ts
         language: system
-        files: backend/schema\.yml$
+        files: backend/schema\.json$
         pass_filenames: false

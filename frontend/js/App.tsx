@@ -1,22 +1,26 @@
 import * as Sentry from '@sentry/react';
+import type { AxiosRequestConfig } from 'axios';
 import cookie from 'cookie';
 
-import { client } from './api/client.gen';
+import { OpenAPI } from './api';
 import Home from './pages/Home';
 
-client.setConfig({
-  credentials: 'include',
-});
+OpenAPI.CREDENTIALS = 'include';
+OpenAPI.WITH_CREDENTIALS = true;
 
-client.interceptors.request.use((request) => {
+OpenAPI.interceptors.request.use((request: AxiosRequestConfig) => {
   const { csrftoken } = cookie.parse(document.cookie);
   if (!csrftoken) {
     return request;
   }
 
-  const headers = new Headers(request.headers);
-  headers.set('X-CSRFTOKEN', csrftoken);
-  return new Request(request, { headers });
+  return {
+    ...request,
+    headers: {
+      ...(request.headers as Record<string, string> | undefined),
+      'X-CSRFTOKEN': csrftoken,
+    },
+  };
 });
 
 const App = () => (

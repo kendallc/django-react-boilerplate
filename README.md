@@ -50,8 +50,7 @@ Also, includes a Render.com `render.yaml` and a working Django `production.py` s
 ### Backend
 
 - `django` for building backend logic using Python
-- `djangorestframework` for building a REST API on top of Django
-- `drf-spectacular` for generating an OpenAPI schema for the Django REST API
+- `django-ninja` for building a type-safe REST API on top of Django
 - `vite_loader` custom templatetag for rendering Vite-bundled frontend assets
 - `django-js-reverse` for easy handling of Django URLs on JS
 - `django-upgrade` for automatically upgrading Django code to the target version on pre-commit
@@ -139,7 +138,7 @@ After completing ALL of the above, remove this `Project bootstrap` section from 
   - If you wish to use another database engine locally, add a new `DATABASE_URL` setting for the database you wish to use
     - Please refer to [dj-database-url](https://github.com/jazzband/dj-database-url#url-schema) on how to configure `DATABASE_URL` for commonly used engines
 - Open a new command line window and go to the project's directory
-- Run `uv pip install -r pyproject.toml --extra dev`
+- Run `uv sync`
 
 #### Run the backend app
 
@@ -149,7 +148,7 @@ After completing ALL of the above, remove this `Project bootstrap` section from 
 - Run the migrations:
   `uv run python manage.py migrate`
 - Generate the OpenAPI schema:
-  `uv run python manage.py spectacular --color --file schema.yml`
+  `uv run python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.json`
 - Run the project:
   `uv run python manage.py runserver`
 
@@ -195,9 +194,9 @@ To add a new **backend** dependency, run `uv add {dependency}`. If the dependenc
 
 ### API Schema and Client generation
 
-We use the [`DRF-Spectacular`](https://drf-spectacular.readthedocs.io/en/latest/readme.html) tool to generate an OpenAPI schema from our Django Rest Framework API. The OpenAPI schema serves as the backbone for generating client code, creating comprehensive API documentation, and more.
+We use [`django-ninja`](https://django-ninja.dev/) to build our API and export OpenAPI schemas. The OpenAPI schema serves as the backbone for generating client code, creating comprehensive API documentation, and more.
 
-The API documentation pages are accessible at `http://localhost:8000/api/schema/swagger-ui/` or `http://localhost:8000/api/schema/redoc/`.
+The API documentation page is accessible at `http://localhost:8000/api/schema/swagger-ui/`.
 
 > [!IMPORTANT]
 > Anytime a view is created, updated, or removed, the schema must be updated to reflect the changes. Failing to do so can lead to outdated client code or documentation.
@@ -205,7 +204,7 @@ The API documentation pages are accessible at `http://localhost:8000/api/schema/
 > To update the schema, run:
 >
 > - If you are using Docker: `make docker_backend_update_schema`
-> - If you are not using Docker: `uv run python manage.py spectacular --color --file schema.yml`
+> - If you are not using Docker: `uv run python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.json`
 
 We use the [`openapi-ts`](https://heyapi.vercel.app/openapi-ts/get-started.html) tool to generate TypeScript client code from the OpenAPI schema. The generated client code is used to interact with the API in a type-safe manner.
 

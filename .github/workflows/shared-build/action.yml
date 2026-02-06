@@ -87,7 +87,7 @@ runs:
         DATABASE_URL: "sqlite:///"
       shell: bash
     - name: Generate backend schema
-      run: cd backend && python manage.py spectacular --color --file schema.yml
+      run: cd backend && python manage.py export_openapi_schema --api testproject.api.api --output schema.json
       working-directory: testproject
       env:
         DATABASE_URL: "sqlite:///"

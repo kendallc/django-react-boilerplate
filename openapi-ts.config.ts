@@ -1,7 +1,7 @@
 import { defineConfig } from '@hey-api/openapi-ts';
 
 export default defineConfig({
-  input: './backend/schema.yml',
+  input: './backend/schema.json',
   output: {
     path: 'frontend/js/api',
     postProcess: ['prettier'],

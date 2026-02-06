@@ -8,13 +8,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Django-React boilerplate - A full-stack application template using Django backend with Django REST Framework and React TypeScript frontend. The project uses Docker for development and includes Celery for background tasks.
+Django-React boilerplate - A full-stack application template using Django backend with Django Ninja and React TypeScript frontend. The project uses Docker for development and includes Celery for background tasks.
 
 ## Completed Migrations
 
 This project has successfully completed all 4 technology migrations:
 1. **Webpack → Vite** ✅ - Now using Vite 6+ for faster builds and HMR
-2. **Poetry → UV** ✅ - Using UV for faster Python dependency management  
+2. **Python Dependencies → UV** ✅ - Using UV for faster Python dependency management  
 3. **ESLint → Biome** ✅ - Using Biome for faster linting and formatting
 4. **npm → pnpm** ✅ - Using pnpm for efficient package management
 
@@ -36,7 +36,7 @@ uv run python backend/manage.py createsuperuser
 
 # Frontend
 pnpm install
-ppnpm run dev
+pnpm run dev
 ```
 
 ### Development Commands
@@ -59,7 +59,7 @@ uv run python manage.py runserver           # Run Django server
 uv run python manage.py test                # Run tests
 uv run python manage.py makemigrations      # Create migrations
 uv run python manage.py migrate             # Apply migrations
-uv run python manage.py generate_swagger    # Generate API schema
+uv run python manage.py export_openapi_schema --api {{project_name}}.api.api --output schema.json  # Generate API schema
 ```
 
 **Frontend Commands:**
@@ -82,7 +82,7 @@ make docker_test    # Docker
 **Run specific tests:**
 ```bash
 # Backend
-uv run python backend/manage.py test users.tests.test_views.UserViewSetTest
+uv run python backend/manage.py test users.tests.test_views.UserApiTest
 
 # Frontend
 pnpm test -- --testNamePattern="should render"
@@ -118,7 +118,7 @@ pnpm run lint
 ### Key Configurations
 - **Database**: PostgreSQL (default) or SQLite for development
 - **Background Tasks**: Celery with Redis/RabbitMQ broker
-- **API Documentation**: Automatically generated at `/api/docs/swagger/`
+- **API Documentation**: Automatically generated at `/api/schema/swagger-ui/`
 - **Static Files**: Served by WhiteNoise with Brotli compression
 - **Development Proxy**: Webpack dev server proxies `/api/*` to Django
 
@@ -183,7 +183,7 @@ All migrations have been completed:
 - Added proxy configuration for `/api/*` routes
 - Django integration via custom manifest plugin
 
-**Poetry → UV** ✅
+**Python Dependencies → UV** ✅
 - Dependencies now in pyproject.toml with UV format
 - All Docker and CI/CD scripts updated
 - Lock file: uv.lock

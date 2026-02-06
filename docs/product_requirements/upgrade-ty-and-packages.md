@@ -43,9 +43,8 @@ This document outlines the completed upgrades to use [ty](https://docs.astral.sh
 | Django | >=5.0 | **>=5.1,<6.0** |
 | celery[redis] | >=5.3.6 | **>=5.4.0** |
 | redis | >=5.1.1 | **>=5.2.0** |
-| djangorestframework | >=3.15.2 | >=3.15.2 |
+| django-ninja | N/A | **>=1.4.0** |
 | django-extensions | >=3.2.3 | >=3.2.3 |
-| drf-spectacular | >=0.27.2 | **>=0.28.0** |
 | whitenoise[brotli] | >=6.8.2 | **>=6.8.0** |
 | django-csp | >=4.0b1 | **>=4.0** |
 | django-permissions-policy | >=4.21.0 | **>=4.24.0** |

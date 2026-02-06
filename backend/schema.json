@@ -1,0 +1,233 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Vinta Boilerplate API",
+    "version": "0.1.0",
+    "description": "A Django project boilerplate with Vinta's best practices"
+  },
+  "paths": {
+    "/api/rest/rest-check/": {
+      "get": {
+        "operationId": "rest_rest_check_retrieve",
+        "summary": "Check REST API",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RestCheckResponseSchema" }
+              }
+            }
+          }
+        },
+        "description": "This endpoint checks if the REST API is working.",
+        "tags": ["common"]
+      }
+    },
+    "/api/users/": {
+      "get": {
+        "operationId": "users_list",
+        "summary": "List Users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/UsersListSchema" } }
+            }
+          }
+        },
+        "tags": ["users"],
+        "security": [{ "SessionAuth": [] }]
+      },
+      "post": {
+        "operationId": "users_create",
+        "summary": "Create User",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/UserSchema" } }
+            }
+          }
+        },
+        "tags": ["users"],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/UserCreateSchema" } }
+          },
+          "required": true
+        },
+        "security": [{ "SessionAuth": [] }]
+      }
+    },
+    "/api/users/{user_id}/": {
+      "get": {
+        "operationId": "users_retrieve",
+        "summary": "Retrieve User",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": { "title": "User Id", "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/UserSchema" } }
+            }
+          }
+        },
+        "tags": ["users"],
+        "security": [{ "SessionAuth": [] }]
+      },
+      "put": {
+        "operationId": "users_update",
+        "summary": "Update User",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": { "title": "User Id", "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/UserSchema" } }
+            }
+          }
+        },
+        "tags": ["users"],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/UserUpdateSchema" } }
+          },
+          "required": true
+        },
+        "security": [{ "SessionAuth": [] }]
+      },
+      "patch": {
+        "operationId": "users_partial_update",
+        "summary": "Partial Update User",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": { "title": "User Id", "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/UserSchema" } }
+            }
+          }
+        },
+        "tags": ["users"],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/UserPatchSchema" } }
+          },
+          "required": true
+        },
+        "security": [{ "SessionAuth": [] }]
+      },
+      "delete": {
+        "operationId": "users_destroy",
+        "summary": "Destroy User",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": { "title": "User Id", "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": { "204": { "description": "No Content" } },
+        "tags": ["users"],
+        "security": [{ "SessionAuth": [] }]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RestCheckResponseSchema": {
+        "properties": { "message": { "title": "Message", "type": "string" } },
+        "required": ["message"],
+        "title": "RestCheckResponseSchema",
+        "type": "object"
+      },
+      "UserSchema": {
+        "properties": {
+          "id": { "title": "Id", "type": "integer" },
+          "email": { "title": "Email", "type": "string" },
+          "is_active": { "title": "Is Active", "type": "boolean" },
+          "is_staff": { "title": "Is Staff", "type": "boolean" },
+          "is_superuser": { "title": "Is Superuser", "type": "boolean" },
+          "created": { "format": "date-time", "title": "Created", "type": "string" },
+          "modified": { "format": "date-time", "title": "Modified", "type": "string" },
+          "last_login": {
+            "anyOf": [{ "format": "date-time", "type": "string" }, { "type": "null" }],
+            "title": "Last Login"
+          }
+        },
+        "required": ["id", "email", "is_active", "is_staff", "is_superuser", "created", "modified"],
+        "title": "UserSchema",
+        "type": "object"
+      },
+      "UsersListSchema": {
+        "properties": {
+          "count": { "title": "Count", "type": "integer" },
+          "next": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Next" },
+          "previous": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Previous" },
+          "results": {
+            "items": { "$ref": "#/components/schemas/UserSchema" },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": ["count", "results"],
+        "title": "UsersListSchema",
+        "type": "object"
+      },
+      "UserCreateSchema": {
+        "properties": {
+          "email": { "title": "Email", "type": "string" },
+          "password": { "title": "Password", "type": "string" }
+        },
+        "required": ["email", "password"],
+        "title": "UserCreateSchema",
+        "type": "object"
+      },
+      "UserUpdateSchema": {
+        "properties": {
+          "email": { "title": "Email", "type": "string" },
+          "password": { "title": "Password", "type": "string" }
+        },
+        "required": ["email", "password"],
+        "title": "UserUpdateSchema",
+        "type": "object"
+      },
+      "UserPatchSchema": {
+        "properties": {
+          "email": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Email" },
+          "password": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Password" }
+        },
+        "title": "UserPatchSchema",
+        "type": "object"
+      }
+    },
+    "securitySchemes": { "SessionAuth": { "type": "apiKey", "in": "cookie", "name": "sessionid" } }
+  },
+  "servers": []
+}

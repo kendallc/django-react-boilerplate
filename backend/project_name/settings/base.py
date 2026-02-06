@@ -35,8 +35,7 @@ INSTALLED_APPS = [
     "django_js_reverse",
     "vite_loader",
     "import_export",
-    "rest_framework",
-    "drf_spectacular",
+    "ninja",
     "defender",
     "django_guid",
     "common",
@@ -60,6 +59,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "{{ project_name }}.urls"
+ASGI_APPLICATION = "{{ project_name }}.asgi.application"
 
 TEMPLATES = [
     {
@@ -103,26 +103,6 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
-
-REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    "PAGE_SIZE": 10,
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
-    ],
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
-    ],
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-}
-
-# drf-spectacular
-SPECTACULAR_SETTINGS = {
-    "TITLE": "Vinta Boilerplate API",
-    "DESCRIPTION": "A Django project boilerplate with Vinta's best practices",
-    "VERSION": "0.1.0",
-    "SERVE_INCLUDE_SCHEMA": False,
-}
 
 LANGUAGE_CODE = "en-us"
 
@@ -210,9 +190,8 @@ CSP_SCRIPT_SRC = (
         "'unsafe-inline'",
         "'unsafe-eval'",
         "https://browser.sentry-cdn.com",
-        # drf-spectacular UI (Swagger and ReDoc)
+        # django-ninja API docs (Swagger UI)
         "https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest/",
-        "https://cdn.jsdelivr.net/npm/redoc@latest/",
         "blob:",
     ]
     + (
@@ -244,23 +223,22 @@ CSP_CONNECT_SRC = (
 CSP_STYLE_SRC = [
     "'self'",
     "'unsafe-inline'",
-    # drf-spectacular UI (Swagger and ReDoc)
+    # django-ninja API docs (Swagger UI)
     "https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest/",
-    "https://cdn.jsdelivr.net/npm/redoc@latest/",
     "https://fonts.googleapis.com",
 ]
 CSP_FONT_SRC = [
     "'self'",
     "'unsafe-inline'",
-    # drf-spectacular UI (Swagger and ReDoc)
+    # django-ninja API docs (Swagger UI)
     "https://fonts.gstatic.com",
 ] + [f"*{host}" if host.startswith(".") else host for host in ALLOWED_HOSTS]
 CSP_IMG_SRC = [
     "'self'",
-    # drf-spectacular UI (Swagger and ReDoc)
+    # django-ninja API docs (Swagger UI)
     "data:",
     "https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest/",
-    "https://cdn.redoc.ly/redoc/",
+    "https://django-ninja.dev",
 ]
 
 # Django-defender
