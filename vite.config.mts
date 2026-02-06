@@ -110,21 +110,8 @@ export default defineConfig(({ mode }) => {
         // Match webpack's module resolution
         'frontend': path.resolve(__dirname, './frontend'),
         '@': path.resolve(__dirname, './frontend/js'),
-        // Handle ~ imports from webpack
-        '~bootstrap': path.resolve(__dirname, './node_modules/bootstrap'),
       },
       extensions: ['.js', '.jsx', '.ts', '.tsx']
-    },
-    
-    css: {
-      preprocessorOptions: {
-        scss: {
-          // Handle webpack-style ~ imports  
-          additionalData: `@use "sass:math";`,
-          // Use includePaths instead of custom importer
-          includePaths: ['node_modules']
-        }
-      }
     },
     
     define: {

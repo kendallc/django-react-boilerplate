@@ -2,12 +2,12 @@
 
 
 {% block body %}
-  <div class="container">
-    <h1>Django React Boilerplate Example App</h1>
-    <p>
+  <div class="mx-auto max-w-5xl px-4 py-6">
+    <h1 class="mb-2 text-3xl font-bold tracking-tight text-slate-900">Django React Boilerplate Example App</h1>
+    <p class="text-slate-700">
       Below is an example of a React app included in the Django template.<br/>
-      Check <code>backend/templates/common/index.html</code> and <code>frontend/js/index.js</code> to understand how they're linked:
+      Check <code class="rounded bg-slate-200 px-1 py-0.5 text-sm">backend/templates/common/index.html</code> and <code class="rounded bg-slate-200 px-1 py-0.5 text-sm">frontend/js/index.tsx</code> to understand how they're linked:
     </p>
   </div>
-  <div class="container" id="react-app"></div>
+  <div class="mx-auto max-w-5xl space-y-6 px-4 pb-8" id="react-app"></div>
 {% endblock %}

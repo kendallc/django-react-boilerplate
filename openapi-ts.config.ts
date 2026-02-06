@@ -4,7 +4,7 @@ export default defineConfig({
   input: './backend/schema.yml',
   output: {
     path: 'frontend/js/api',
-    format: 'prettier',
+    postProcess: ['prettier'],
   },
   client: 'axios',
   useOptions: true,

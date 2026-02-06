@@ -47,14 +47,22 @@ repos:
         pass_filenames: false
       - id: missing-migrations
         name: missing-migrations-local
-        entry: uv run python backend/manage.py makemigrations --check
+        entry: >
+          bash -lc 'if rg -Fq "{{ project_name }}" pyproject.toml; then
+          echo "Skipping missing migrations check in template mode";
+          exit 0; fi;
+          uv run python backend/manage.py makemigrations --check'
         language: system
         # Only run missing migration check if migration-generating files have changed:
         files: (.*/?(settings|migrations|models)/.+|.+models\.py|.+constants\.py|.+choices\.py|.+pyproject\.toml)
         pass_filenames: false
       - id: backend-schema
         name: backend-schema-local
-        entry: uv run python backend/manage.py spectacular --color --file backend/schema.yml
+        entry: >
+          bash -lc 'if rg -Fq "{{ project_name }}" pyproject.toml; then
+          echo "Skipping backend schema generation in template mode";
+          exit 0; fi;
+          uv run python backend/manage.py spectacular --color --file backend/schema.yml'
         language: system
         files: ^backend/
         pass_filenames: false
