@@ -33,6 +33,16 @@
       "linter": {
         "enabled": false
       }
+    },
+    {
+      "includes": ["frontend/css/tailwind.css"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noUnknownAtRules": "off"
+          }
+        }
+      }
     }
   ],
   "javascript": {

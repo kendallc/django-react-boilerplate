@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client';
 
 import App from './App';
 
-import '../sass/style.scss';
+import '../css/tailwind.css';
 
 Sentry.init({
   dsn: window.SENTRY_DSN,

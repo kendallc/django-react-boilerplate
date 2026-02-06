@@ -1,7 +1,7 @@
-FROM node:22-alpine
+FROM node:22.22.0-alpine
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@10 --activate
+RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
 
 WORKDIR /app/
 
