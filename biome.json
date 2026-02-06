@@ -30,6 +30,9 @@
   "overrides": [
     {
       "includes": ["frontend/js/api/**"],
+      "formatter": {
+        "enabled": false
+      },
       "linter": {
         "enabled": false
       }

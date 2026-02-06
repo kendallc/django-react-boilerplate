@@ -3,146 +3,132 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type {
-  RestRestCheckRetrieveResponse,
-  UsersCreateData,
-  UsersCreateResponse,
-  UsersDestroyData,
-  UsersDestroyResponse,
-  UsersListData,
-  UsersListResponse,
-  UsersPartialUpdateData,
-  UsersPartialUpdateResponse,
-  UsersRetrieveData,
-  UsersRetrieveResponse,
-  UsersUpdateData,
-  UsersUpdateResponse,
-} from './types.gen';
+import type { RestRestCheckRetrieveResponse, UsersCreateData, UsersCreateResponse, UsersDestroyData, UsersDestroyResponse, UsersListData, UsersListResponse, UsersPartialUpdateData, UsersPartialUpdateResponse, UsersRetrieveData, UsersRetrieveResponse, UsersUpdateData, UsersUpdateResponse } from './types.gen';
 
 export class CommonService {
-  /**
-   * Check REST API
-   * This endpoint checks if the REST API is working.
-   * @returns RestCheckResponseSchema OK
-   * @throws ApiError
-   */
-  public static restRestCheckRetrieve(): CancelablePromise<RestRestCheckRetrieveResponse> {
-    return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/rest/rest-check/',
-    });
-  }
+    /**
+     * Check REST API
+     * This endpoint checks if the REST API is working.
+     * @returns RestCheckResponseSchema OK
+     * @throws ApiError
+     */
+    public static restRestCheckRetrieve(): CancelablePromise<RestRestCheckRetrieveResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/rest/rest-check/'
+        });
+    }
+    
 }
 
 export class UsersService {
-  /**
-   * List Users
-   * @param data The data for the request.
-   * @param data.limit
-   * @param data.offset
-   * @returns UsersListSchema OK
-   * @throws ApiError
-   */
-  public static usersList(data: UsersListData = {}): CancelablePromise<UsersListResponse> {
-    return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/users/',
-      query: {
-        limit: data.limit,
-        offset: data.offset,
-      },
-    });
-  }
-
-  /**
-   * Create User
-   * @param data The data for the request.
-   * @param data.requestBody
-   * @returns UserSchema Created
-   * @throws ApiError
-   */
-  public static usersCreate(data: UsersCreateData): CancelablePromise<UsersCreateResponse> {
-    return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/users/',
-      body: data.requestBody,
-      mediaType: 'application/json',
-    });
-  }
-
-  /**
-   * Retrieve User
-   * @param data The data for the request.
-   * @param data.userId
-   * @returns UserSchema OK
-   * @throws ApiError
-   */
-  public static usersRetrieve(data: UsersRetrieveData): CancelablePromise<UsersRetrieveResponse> {
-    return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/users/{user_id}/',
-      path: {
-        user_id: data.userId,
-      },
-    });
-  }
-
-  /**
-   * Update User
-   * @param data The data for the request.
-   * @param data.userId
-   * @param data.requestBody
-   * @returns UserSchema OK
-   * @throws ApiError
-   */
-  public static usersUpdate(data: UsersUpdateData): CancelablePromise<UsersUpdateResponse> {
-    return __request(OpenAPI, {
-      method: 'PUT',
-      url: '/api/users/{user_id}/',
-      path: {
-        user_id: data.userId,
-      },
-      body: data.requestBody,
-      mediaType: 'application/json',
-    });
-  }
-
-  /**
-   * Partial Update User
-   * @param data The data for the request.
-   * @param data.userId
-   * @param data.requestBody
-   * @returns UserSchema OK
-   * @throws ApiError
-   */
-  public static usersPartialUpdate(
-    data: UsersPartialUpdateData
-  ): CancelablePromise<UsersPartialUpdateResponse> {
-    return __request(OpenAPI, {
-      method: 'PATCH',
-      url: '/api/users/{user_id}/',
-      path: {
-        user_id: data.userId,
-      },
-      body: data.requestBody,
-      mediaType: 'application/json',
-    });
-  }
-
-  /**
-   * Destroy User
-   * @param data The data for the request.
-   * @param data.userId
-   * @returns void No Content
-   * @throws ApiError
-   */
-  public static usersDestroy(data: UsersDestroyData): CancelablePromise<UsersDestroyResponse> {
-    return __request(OpenAPI, {
-      method: 'DELETE',
-      url: '/api/users/{user_id}/',
-      path: {
-        user_id: data.userId,
-      },
-    });
-  }
+    /**
+     * List Users
+     * @param data The data for the request.
+     * @param data.limit
+     * @param data.offset
+     * @returns UsersListSchema OK
+     * @throws ApiError
+     */
+    public static usersList(data: UsersListData = {}): CancelablePromise<UsersListResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/users/',
+            query: {
+                limit: data.limit,
+                offset: data.offset
+            }
+        });
+    }
+    
+    /**
+     * Create User
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns UserSchema Created
+     * @throws ApiError
+     */
+    public static usersCreate(data: UsersCreateData): CancelablePromise<UsersCreateResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/users/',
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * Retrieve User
+     * @param data The data for the request.
+     * @param data.userId
+     * @returns UserSchema OK
+     * @throws ApiError
+     */
+    public static usersRetrieve(data: UsersRetrieveData): CancelablePromise<UsersRetrieveResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/users/{user_id}/',
+            path: {
+                user_id: data.userId
+            }
+        });
+    }
+    
+    /**
+     * Update User
+     * @param data The data for the request.
+     * @param data.userId
+     * @param data.requestBody
+     * @returns UserSchema OK
+     * @throws ApiError
+     */
+    public static usersUpdate(data: UsersUpdateData): CancelablePromise<UsersUpdateResponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/users/{user_id}/',
+            path: {
+                user_id: data.userId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * Partial Update User
+     * @param data The data for the request.
+     * @param data.userId
+     * @param data.requestBody
+     * @returns UserSchema OK
+     * @throws ApiError
+     */
+    public static usersPartialUpdate(data: UsersPartialUpdateData): CancelablePromise<UsersPartialUpdateResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/users/{user_id}/',
+            path: {
+                user_id: data.userId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * Destroy User
+     * @param data The data for the request.
+     * @param data.userId
+     * @returns void No Content
+     * @throws ApiError
+     */
+    public static usersDestroy(data: UsersDestroyData): CancelablePromise<UsersDestroyResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/users/{user_id}/',
+            path: {
+                user_id: data.userId
+            }
+        });
+    }
+    
 }

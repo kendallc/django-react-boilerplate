@@ -1,27 +1,60 @@
 import * as Sentry from '@sentry/react';
-import type { AxiosRequestConfig } from 'axios';
 import cookie from 'cookie';
 
-import { OpenAPI } from './api';
+import * as ApiModule from './api';
 import Home from './pages/Home';
 
-OpenAPI.CREDENTIALS = 'include';
-OpenAPI.WITH_CREDENTIALS = true;
+type OpenApiClient = {
+  CREDENTIALS?: RequestCredentials;
+  WITH_CREDENTIALS?: boolean;
+  interceptors?: {
+    request?: {
+      use?: (fn: (request: { headers?: unknown }) => unknown) => number;
+    };
+  };
+};
 
-OpenAPI.interceptors.request.use((request: AxiosRequestConfig) => {
+type GeneratedClient = {
+  setConfig?: (config: { credentials?: RequestCredentials }) => void;
+  interceptors?: {
+    request?: {
+      use?: (fn: (request: Request) => Request) => number;
+    };
+  };
+};
+
+const withCsrfHeaders = (existingHeaders?: Headers | Record<string, string>) => {
+  const headers = new Headers(existingHeaders);
   const { csrftoken } = cookie.parse(document.cookie);
-  if (!csrftoken) {
-    return request;
+
+  if (csrftoken) {
+    headers.set('X-CSRFTOKEN', csrftoken);
   }
 
-  return {
+  return headers;
+};
+
+const api = ApiModule as unknown as {
+  OpenAPI?: OpenApiClient;
+  client?: GeneratedClient;
+};
+
+if (api.OpenAPI) {
+  api.OpenAPI.CREDENTIALS = 'include';
+  api.OpenAPI.WITH_CREDENTIALS = true;
+  api.OpenAPI.interceptors?.request?.use?.((request) => ({
     ...request,
-    headers: {
-      ...(request.headers as Record<string, string> | undefined),
-      'X-CSRFTOKEN': csrftoken,
-    },
-  };
-});
+    headers: withCsrfHeaders(request.headers as Headers | Record<string, string> | undefined),
+  }));
+}
+
+if (api.client) {
+  api.client.setConfig?.({ credentials: 'include' });
+  api.client.interceptors?.request?.use?.((request) => {
+    const headers = withCsrfHeaders(request.headers);
+    return new Request(request, { headers });
+  });
+}
 
 const App = () => (
   <Sentry.ErrorBoundary fallback={<p>An error has occurred</p>}>
