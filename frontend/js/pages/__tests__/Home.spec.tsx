@@ -1,18 +1,18 @@
 import { render, screen, waitFor } from '@testing-library/react';
 
-import { RestService } from '../../api';
+import { restRestCheckRetrieve } from '../../api';
 import Home from '../Home';
 
 jest.mock('../../api', () => ({
-  RestService: {
-    restRestCheckRetrieve: jest.fn(),
-  },
+  restRestCheckRetrieve: jest.fn(),
 }));
 
 describe('Home', () => {
   beforeEach(() => {
-    (RestService.restRestCheckRetrieve as jest.Mock).mockResolvedValue({
-      message: 'Test Result',
+    (restRestCheckRetrieve as jest.Mock).mockResolvedValue({
+      data: {
+        message: 'Test Result',
+      },
     });
   });
 
@@ -32,7 +32,7 @@ describe('Home', () => {
     render(<Home />);
 
     await waitFor(() => {
-      expect(RestService.restRestCheckRetrieve).toHaveBeenCalledWith();
+      expect(restRestCheckRetrieve).toHaveBeenCalledWith();
     });
   });
 });

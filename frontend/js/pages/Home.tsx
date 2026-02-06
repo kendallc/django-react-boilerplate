@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react';
 
 import DjangoNegativeLogoSrc from '../../assets/images/django-logo-negative.png';
 import DjangoPositiveLogoSrc from '../../assets/images/django-logo-positive.png';
-import { RestService } from '../api';
+import { type RestRestCheckRetrieveResponse, restRestCheckRetrieve } from '../api';
 
 const Home = () => {
   const [showBugComponent, setShowBugComponent] = useState(false);
-  const [restCheck, setRestCheck] =
-    useState<Awaited<ReturnType<typeof RestService.restRestCheckRetrieve>>>();
+  const [restCheck, setRestCheck] = useState<RestRestCheckRetrieveResponse>();
 
   useEffect(() => {
     async function onFetchRestCheck() {
-      setRestCheck(await RestService.restRestCheckRetrieve());
+      const response = await restRestCheckRetrieve();
+      setRestCheck(response.data);
     }
     onFetchRestCheck();
   }, []);

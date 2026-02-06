@@ -1,15 +1,22 @@
 import * as Sentry from '@sentry/react';
 import cookie from 'cookie';
 
-import { OpenAPI } from './api';
+import { client } from './api/client.gen';
 import Home from './pages/Home';
 
-OpenAPI.interceptors.request.use((request) => {
+client.setConfig({
+  credentials: 'include',
+});
+
+client.interceptors.request.use((request) => {
   const { csrftoken } = cookie.parse(document.cookie);
-  if (request.headers && csrftoken) {
-    request.headers['X-CSRFTOKEN'] = csrftoken;
+  if (!csrftoken) {
+    return request;
   }
-  return request;
+
+  const headers = new Headers(request.headers);
+  headers.set('X-CSRFTOKEN', csrftoken);
+  return new Request(request, { headers });
 });
 
 const App = () => (
